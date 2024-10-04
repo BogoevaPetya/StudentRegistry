@@ -13,32 +13,17 @@ jobs:
     strategy:
       matrix:
         node-version: [18.x]
+
     steps:
     - name: Checkout repo
       uses: actions/checkout@v4
     - name: Install NodeJS
       uses: actions/setup-node@v4
       with:
-        node-version: ${{ matrix.node-version }}
-        cache: 'npm'
+        node-version: 20
     - name: Install dependencies
       run: npm install
-    - name: Run tests
+    - name: Start app
       run: npm start $
-
-  test:
-    runs-on: ubuntu-latest
-    needs: build
-    steps:
-      - name: Checkout the code
-        uses: actions/checkout@v4
-      - name: Install NodeJS
-        uses: actions/setup-node@v4
-        with:
-          node-version: 20
-      - name: Install dependencies
-        run: npm install
-      - name: Start app
-        run: npm run start &
-      - name: Execute integration tests
-        run: npm run test
+    - name: Execute integration tests
+      run: npm test
